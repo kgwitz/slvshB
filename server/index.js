@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express()
 
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 3001;
 
 // your code
 
@@ -14,7 +14,7 @@ const userRouter = require('./controllers/user')
 const matchupRouter = require('./controllers/matchup')
 
 app.use(express.json())
-app.use(cors('https://slvsh-bracket.onrender.com'))
+app.use(cors('http://localhost:3000','https://slvsh-bracket.onrender.com'))
 
 app.use(userRouter)
 app.use(matchupRouter)
