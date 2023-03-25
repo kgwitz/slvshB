@@ -8,6 +8,7 @@ import Footer from "./Components/Footer/Footer"
 import Home from "./Components/Home/Home"
 import LoginPage from "./Components/Login/Login"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import background from './Components/IMG_1081.jpeg'
 
 
 const App = () => {
