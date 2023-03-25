@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container';
-import { Navbar } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap';
 
 
 const Navigation = (props) => {
@@ -28,18 +29,27 @@ const Navigation = (props) => {
 
     return (
         <div className="navigation">
-            <nav className="navbar navbar-expand navbar-dark bg-light">
+            <nav className="navbar navbar-expand navbar-dark bg-dark">
                 <div className="w-100 d-flex flex-row align-items-center justify-content-between pe-5">
-                    <Navbar bg="light" expand="lg" style={{ paddingLeft: '4rem', backgroundColor: 'blue' }}>
+                    <Navbar bg="dark" variant="dark" expand="lg" style={{ paddingLeft: '4rem', backgroundColor: 'blue' }}>
 
                         <Container className='d-flex flex-row'>
                             <Navbar.Brand href="#home">SLVSH BRACKET</Navbar.Brand>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                            <Nav>
+                                <LinkContainer to='/Home'>
+                                    <Nav.Link to="/home">Home</Nav.Link>
+                                </LinkContainer>
+                                <LinkContainer to='/prizes'>
+                                    <Nav.Link to="/prizes">Prizes</Nav.Link>
+                                </LinkContainer>
+
+                            </Nav>
                         </Container>
                     </Navbar>
                     {userName != '' &&
                         <div className='d-flex flex-row align-items-center'>
-                            <div className="pe-4">{userName}</div>
+                            <div className="pe-4" style={{color:'white'}}>{userName}</div>
                             <Button variant='outline-secondary' onClick={() => { handleUserLogout() }}>Logout</Button>
                         </div>}
                 </div>
