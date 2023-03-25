@@ -60,18 +60,14 @@ function LoginPage(props) {
     }
 
     const handleSignUp = async () => {
-
         if (password == '' || userName == '') {
             return
         }
-
         const data = {
             userName: userName,
             password: password,
         }
-
         const response = await CreateUser(data)
-
         if (response) {
             console.log(response)
             const userName = response.data.userName
@@ -86,7 +82,7 @@ function LoginPage(props) {
     }
 
     return (
-        <div className="" style={{ paddingTop: '4rem' }}>
+        <div className="" style={{ paddingTop: '4rem', height:'100vh'}}>
             <div className="container d-flex flex-row align-items-center justify-content-center" style={{ maxWidth: '500px' }}>
                 <Card style={{ width: '28rem' }}>
                     <Card.Body className="d-flex flex-column justify-content-center align-items-center">

@@ -9,7 +9,7 @@ function Prizes(props) {
     const navigate = useNavigate()
 
     return (
-        <div className="" style={{ paddingTop: '4rem' }}>
+        <div className="container" style={{ paddingTop: '4rem', backgroundColor:'white' }}>
             <Card className="w-100 mb-3">
                 <Card.Body>
                     <Card.Title>All Expenses Paid 10 Day Disney Land Cruise</Card.Title>

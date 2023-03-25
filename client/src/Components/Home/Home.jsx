@@ -184,8 +184,8 @@ function Home() {
 
 
     return (
-        <div className="">
-            <div className="container" style={{ paddingTop: '2rem' }}>
+        <div className="" >
+            <div className="container" style={{ paddingTop: '2rem', backgroundColor:'white'}}>
                 <Accordion defaultActiveKey="0" className="" style={{ width: 'fit-content', minWidth: '250px'}}>
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>LeaderBoard</Accordion.Header>

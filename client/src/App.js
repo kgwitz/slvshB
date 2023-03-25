@@ -39,18 +39,18 @@ const App = () => {
   }, [])
 
   return (
-    <div className='App main-div' >
+    <div className='App main-div' style={{height:'100%'}} >
 
       {/* <userContext.Provider value={{ userLogin: userLogin, user: user, logout: handleLogout, setUserLogin, setUser }}> */}
       <Router>
         <Navigation userLogin={userLogin} handleLogout={handleLogout}></Navigation>
-        <div className="container" style={{ backgroundColor: 'white',  }}>
+        {/* <div className="container" style={{ backgroundColor: 'white',  }}> */}
           <Routes>
             <Route path="/" element={<LoginPage userLogin={userLogin} handleLogin={handleLogin} />} />
             <Route path="/home" element={<Home />} />
             <Route path="/prizes" element={<Prizes />} />
           </Routes>
-        </div>
+        {/* </div> */}
       </Router>
 
       {/* </userContext.Provider> */}
