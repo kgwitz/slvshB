@@ -43,7 +43,7 @@ function Prizes(props) {
                     <Card.Title>Mons Royale Prize Pack </Card.Title>
                     <Card.Subtitle className="mb-3 text-muted">1st Place</Card.Subtitle>
                     <Card.Text>
-                    Sophia said she would donate a bunch of Mons Royale samples to the winner. 
+                    Sophia said she might be able to donate a bunch of Mons Royale samples to the winner. 
                     </Card.Text>
                 </Card.Body>
             </Card>
