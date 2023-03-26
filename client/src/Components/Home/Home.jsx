@@ -5,9 +5,10 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Accordion from 'react-bootstrap/Accordion'
 import Table from 'react-bootstrap/Table'
 import Alert from 'react-bootstrap/Alert'
-import { GetMatchups, GetUser, UpdateUser, GetLeaderboard } from '../../ApiRequests'
+import { GetMatchups, GetUser, UpdateUser, GetLeaderboard, GetMatchupVotes } from '../../ApiRequests'
 import { useEffect, useState, useContext } from "react";
 import Button from "react-bootstrap/Button";
+import ProgressBar from 'react-bootstrap/ProgressBar'
 import { userContext } from '../userContext';
 
 
@@ -24,12 +25,13 @@ function Home() {
     const [updatedUser, setUpdatedUser] = useState(false)
     const [leaderboard, setLeaderboard] = useState([])
     const [rounds, setRounds] = useState([])
+    const [matchupVotes, setMatchupVotes] = useState([])
 
     useEffect(() => {
         getMatchups()
         getUser()
         getLeaderboard()
-        console.log('userlogin', userLogin)
+        getVotes()
     }, [])
 
     const getLeaderboard = async () => {
@@ -41,6 +43,11 @@ function Home() {
     const getMatchups = async () => {
         const response = await GetMatchups()
         setMatchups(response.data)
+    }
+
+    const getVotes = async () => {
+        const response = await GetMatchupVotes()
+        setMatchupVotes(response.data)
     }
 
     const getUser = async () => {
@@ -90,7 +97,7 @@ function Home() {
 
     useEffect(() => {
         if (localStorage.getItem('userName') && localStorage.getItem('userID') != '') {
-            return 
+            return
         } else {
             navigate('/login')
             setUserLogin(false)
@@ -98,6 +105,24 @@ function Home() {
 
     })
 
+    const renderProgressBar = (matchup) => {
+        // console.log(matchupVotes)
+        const matchupTally = matchupVotes.find(obj => obj.matchupId == matchup._id)
+        // console.log(matchupTally, matchup)
+        if (!matchupTally){
+            return 
+        }
+        const team1 = Number(matchupTally.team1)
+        const team2 = Number(matchupTally.team2)
+
+        return (
+            <ProgressBar>
+                <ProgressBar striped variant="success" now={(team1/(team1 + team2)*100)} key={1} />
+                <ProgressBar variant="warning" now={(team2/(team1 + team2))*(100)} key={2} />
+                {/* <ProgressBar striped variant="danger" now={10} key={3} /> */}
+            </ProgressBar>
+        )
+    }
 
     const renderLeaderboard = (user, index) => {
         return (
@@ -117,8 +142,6 @@ function Home() {
 
     const renderRounds = (round, index) => {
         const matchupsInRound = matchups.filter((obj) => obj.round === round)
-        console.log(matchupsInRound)
-
         return (
             <>
                 <hr></hr>
@@ -134,6 +157,11 @@ function Home() {
         let item;
         let style = 'info';
         let prevMatchup = array[index - 1]
+        let gamePast = false;
+
+        if ('winner' in matchup) {
+            gamePast = true
+        }
 
         const hasDifferentRound = !prevMatchup || prevMatchup.round !== matchup.round;
 
@@ -147,19 +175,34 @@ function Home() {
 
         const hr = hasDifferentRound ? <hr></hr> : null
 
-
         return (
             <Card className='mx-3 my-4' style={{ width: '21rem', height: 'fit-content' }}>
                 <Card.Body >
                     <Card.Title>{matchup.team1} <i>vs</i> </Card.Title>
                     <Card.Title>{matchup.team2}</Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">Round {matchup.round}</Card.Subtitle>
-                    {item && <>
+                    {(item) && <>
                         <Alert variant={`${style}`}>
                             {item.winner}
                         </Alert>
+
+                        <div className="d-flex flex-column">
+                            <div className="d-flex flex-row justify-content-between">
+                                <div className="">{matchup.team1}</div>
+                                <div className="">{matchup.team2}</div>
+                            </div>
+                        </div>
+                        {renderProgressBar(matchup)}
+
+                        {/* Diplay matchup Votes */}
+
                     </>}
-                    {!item && <>
+                    {(gamePast && !item) && <>
+                        <Alert variant={`secondary`}>
+                            Voting for game has already closed
+                        </Alert>
+                    </>}
+                    {!item && !gamePast && <>
                         <Button variant='outline-primary' className="w-100 mt-3 mb-1" onClick={() => { handleClickVote(matchup) }}>Vote</Button>
                         {matchupID == matchup._id && expand &&
                             <>

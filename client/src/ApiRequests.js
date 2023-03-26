@@ -70,6 +70,16 @@ const GetLeaderboard = async () => {
     }
 }
 
+const GetMatchupVotes = async () => {
+    const res = await Axios.get(`${URL}/Matchup/Votes`)
+
+    if (res) {
+        return res
+    } else {
+        console.log('no votes')
+    }
+}
+
 export {
     GetMatchups,
     Login,
@@ -77,4 +87,5 @@ export {
     CreateUser,
     UpdateUser,
     GetLeaderboard,
+    GetMatchupVotes
 }

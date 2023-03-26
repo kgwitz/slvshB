@@ -21,6 +21,7 @@ function LoginPage(props) {
     const [accountAlreadyExists, setAccountAlreadyExists] = useState(false)
     const [couldNotLogin, setCouldNotLogin] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
+    const [signUpDisabled, setSignUpDisabled] = useState(false)
 
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
@@ -81,6 +82,8 @@ function LoginPage(props) {
         if (password == '' || userName == '') {
             return
         }
+
+        setSignUpDisabled(true)
         const data = {
             userName: userName,
             password: password,
@@ -103,6 +106,7 @@ function LoginPage(props) {
                 console.log('no resposne ')
             }
         } catch (err) {
+            setSignUpDisabled(false)
             setAccountAlreadyExists(true)
         }
 
@@ -145,7 +149,7 @@ function LoginPage(props) {
                                 <div className="row w-50" style={{ paddingTop: '10px', height: '55px' }}>
                                     <input placeholder="Password" type='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
                                 </div>
-                                <Button variant='outline-primary' className="w-50" style={{ marginTop: '10px' }} onClick={() => { handleSignUp() }}>Sign Up</Button>
+                                <Button variant='outline-primary' className="w-50" disabled={signUpDisabled} style={{ marginTop: '10px' }} onClick={() => { handleSignUp() }}>Sign Up</Button>
                                 {accountAlreadyExists && <div className="pt-2" style={{ color: 'red', textAlign: 'start' }}>Account Already Exists</div>}
                             </div>
 
