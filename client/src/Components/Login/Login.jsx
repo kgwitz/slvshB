@@ -19,6 +19,7 @@ function LoginPage(props) {
 
     const [showCreateAccount, setShowCreateAccount] = useState(false)
     const [accountAlreadyExists, setAccountAlreadyExists] = useState(false)
+    const [couldNotLogin, setCouldNotLogin] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
 
     const [userName, setUserName] = useState('')
@@ -50,20 +51,30 @@ function LoginPage(props) {
 
         const response = await Login(userName, password)
 
-        if (response) {
-            console.log('succesful login')
-            console.log(response)
-
-            localStorage.setItem('userID', response.data[0]._id)
-            localStorage.setItem('userName', response.data[0].userName)
-            setUser({userName: response.data[0].userName, userId: response.data[0]._id})
-            setUserLogin(true)
-            navigate('/')
-        } else {
-            console.log('could not sign in')
+        try {
+            if (response.data.length > 0) {
+                console.log('response', response)
+                localStorage.setItem('userID', response.data[0]._id)
+                localStorage.setItem('userName', response.data[0].userName)
+                setUser({ userName: response.data[0].userName, userId: response.data[0]._id })
+                setUserLogin(true)
+                navigate('/')
+            } else {
+                console.log('could not sign in')
+                clearFields()
+                setCouldNotLogin(true)
+            }
+        } catch (err) {
+            console.log('could not sign in ERROR')
             clearFields()
+            setCouldNotLogin(true)
+            console.log(err)
         }
 
+    }
+
+    const NavigateHome = () => {
+        navigate('/')
     }
 
     const handleSignUp = async () => {
@@ -74,13 +85,13 @@ function LoginPage(props) {
             userName: userName,
             password: password,
         }
-        try{
+        try {
             const response = await CreateUser(data)
             if (response) {
                 console.log(response)
                 const userName = response.data.userName
                 const id = response.data._id
-    
+
                 localStorage.setItem('userID', id)
                 localStorage.setItem('userName', userName)
                 navigate('/')
@@ -90,11 +101,11 @@ function LoginPage(props) {
         } catch (err) {
             setAccountAlreadyExists(true)
         }
-        
+
     }
 
     return (
-        <div className="" style={{ paddingTop: '4rem', height:'100vh'}}>
+        <div className="" style={{ paddingTop: '4rem', height: '100vh' }}>
             <div className="container d-flex flex-row align-items-center justify-content-center" style={{ maxWidth: '500px' }}>
                 <Card style={{ width: '28rem' }}>
                     <Card.Body className="d-flex flex-column justify-content-center align-items-center">
@@ -106,12 +117,15 @@ function LoginPage(props) {
                             <div className="w-100 d-flex flex-column justify-content-center align-items-center" style={{ paddingTop: '25px', paddingBottom: '25px' }}>
                                 <hr className="w-100"></hr>
                                 <div className="row w-50" style={{ paddingTop: '15px', height: '55px' }}>
-                                    <input placeholder="Username" value={userName} onChange={(e) => setUserName(e.target.value)}></input>
+                                    <input placeholder="Username" value={userName} onChange={(e) => setUserName(e.target.value)} onClick={() => { setCouldNotLogin(false) }}></input>
                                 </div>
                                 <div className="row w-50" style={{ paddingTop: '10px', height: '55px' }}>
                                     <input type='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
                                 </div>
                                 <Button variant='outline-primary' className="w-50" style={{ marginTop: '10px' }} onClick={() => { handleSignIn() }}>Sign in</Button>
+                                {userLogin && <Button className="my-2" variant="outline-secondary">Enter</Button>}
+                                <Button variant="secondary" className="my-2" onClick={() => {NavigateHome()}}>Home</Button>
+                                {couldNotLogin && <div className="pt-2" style={{ color: 'red' }}>Could not login</div>}
                                 <hr className="w-100" style={{ marginTop: '30px' }}></hr>
                             </div>
                         }
@@ -122,13 +136,13 @@ function LoginPage(props) {
                             <div className="w-100 d-flex flex-column justify-content-center align-items-center" style={{ paddingTop: '25px', paddingBottom: '25px' }}>
                                 <hr className="w-100"></hr>
                                 <div className="row w-50" style={{ paddingTop: '15px', height: '55px' }}>
-                                    <input placeholder="Username" value={userName} onChange={(e) => setUserName(e.target.value)} onClick={() => {setAccountAlreadyExists(false)}}></input>
+                                    <input placeholder="Username" value={userName} onChange={(e) => setUserName(e.target.value)} onClick={() => { setAccountAlreadyExists(false) }}></input>
                                 </div>
                                 <div className="row w-50" style={{ paddingTop: '10px', height: '55px' }}>
                                     <input placeholder="Password" type='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
                                 </div>
                                 <Button variant='outline-primary' className="w-50" style={{ marginTop: '10px' }} onClick={() => { handleSignUp() }}>Sign Up</Button>
-                                {accountAlreadyExists && <div className="pt-2" style={{color:'red', textAlign:'start'}}>Account Already Exists</div>}
+                                {accountAlreadyExists && <div className="pt-2" style={{ color: 'red', textAlign: 'start' }}>Account Already Exists</div>}
                             </div>
 
                         }
