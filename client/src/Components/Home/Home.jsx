@@ -89,7 +89,7 @@ function Home() {
     }, [updatedUser])
 
     useEffect(() => {
-        if (localStorage.getItem('userName') != '' && localStorage.getItem('userID') != '') {
+        if (localStorage.getItem('userName') && localStorage.getItem('userID') != '') {
             return 
         } else {
             navigate('/login')

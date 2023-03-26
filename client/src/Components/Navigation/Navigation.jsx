@@ -23,7 +23,7 @@ const Navigation = (props) => {
         localStorage.setItem('userID', '')
 
         setUserLogin(false)
-        setUser({userName:'', userId:''})
+        setUser({ userName: '', userId: '' })
         navigate('/login')
     }
 
@@ -43,17 +43,21 @@ const Navigation = (props) => {
                         <Container className='d-flex flex-row'>
                             <Navbar.Brand href="/">SLVSH BRACKET</Navbar.Brand>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                            {userLogin && 
-                            <Nav className="me-auto">
-                                <Nav.Link href="/">Home</Nav.Link>
-                                <Nav.Link href="/prizes">prizes</Nav.Link>
-                            </Nav>}
+                            {userLogin &&
+                                <Nav className="me-auto">
+                                    <Nav.Link href="/">Home</Nav.Link>
+                                    <Nav.Link href="/prizes">prizes</Nav.Link>
+                                </Nav>}
                         </Container>
                     </Navbar>
-                    {userLogin  &&
+                    {userLogin &&
                         <div className='d-flex flex-row align-items-center'>
                             <div className="pe-4" style={{ color: 'white' }}>{user.userName}</div>
                             <Button variant='outline-secondary' onClick={() => { handleUserLogout() }}>Logout</Button>
+                        </div>}
+                    {!userLogin &&
+                        <div className='d-flex flex-row align-items-center'>
+                            <Button variant='outline-secondary' onClick={() => { handleUserLogout() }}>Sign Up</Button>
                         </div>}
                 </div>
             </nav >
