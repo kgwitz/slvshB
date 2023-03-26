@@ -9,8 +9,16 @@ router.post('/CreateUser', async (req, res) => {
     const user = new UserModel(userInput)
 
     try {
-        user.save().then(result => {
-            res.send(result)
+
+        UserModel.find({ userName: user.userName}, (err, result) => {
+
+            if (Object.keys(result).length === 0){
+                user.save().then(result => {
+                    res.send(result)
+                })
+            }
+            res.status(400).send('Bad Request: The username already exists')
+            
         })
     } catch (err) {
         console.log(err)

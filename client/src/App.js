@@ -13,6 +13,8 @@ import background from './Components/IMG_1081.jpeg'
 import './Components/main.css'
 
 
+import { userContext } from './Components/userContext'
+
 const App = () => {
   const [userLogin, setUserLogin] = useState(false)
   const [user, setUser] = useState({ userName: '', _id: '' })
@@ -21,39 +23,33 @@ const App = () => {
     setUserLogin(false)
   }
 
-  const handleLogin = () => {
-    setUserLogin(true)
-  }
-
   //NOT IN USE
   useEffect(() => {
-    if (localStorage.getItem('userId') && localStorage.getItem('userId') != '') {
-      const userId = localStorage.getItem('userId')
+    if (localStorage.getItem('userName') && localStorage.getItem('userID') != '') {
+      const userId = localStorage.getItem('userID')
       const userName = localStorage.getItem('userName')
 
       if (!userLogin) {
         setUserLogin(true)
-        setUser({ userName: userName, _id: userId })
+        setUser({ userName: userName, userId: userId })
       }
     }
   }, [])
 
   return (
-    <div className='App main-div' style={{height:'100%'}} >
+    <div className='App main-div' style={{ height: '100%' }} >
 
-      {/* <userContext.Provider value={{ userLogin: userLogin, user: user, logout: handleLogout, setUserLogin, setUser }}> */}
-      <Router>
-        <Navigation userLogin={userLogin} handleLogout={handleLogout}></Navigation>
-        {/* <div className="container" style={{ backgroundColor: 'white',  }}> */}
+      <userContext.Provider value={{ userLogin: userLogin, user: user, logout: handleLogout, setUserLogin, setUser }}>
+        <Router>
+          <Navigation></Navigation>
           <Routes>
-            <Route path="/" element={<LoginPage userLogin={userLogin} handleLogin={handleLogin} />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<Home />} />
             <Route path="/prizes" element={<Prizes />} />
           </Routes>
-        {/* </div> */}
-      </Router>
+        </Router>
 
-      {/* </userContext.Provider> */}
+      </userContext.Provider>
     </div>
   );
 }

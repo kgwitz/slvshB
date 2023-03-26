@@ -2,16 +2,23 @@ import React from "react";
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import InputGroup from 'react-bootstrap/InputGroup'
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "../main.css"
 import { useNavigate } from "react-router-dom";
 import { Login, CreateUser } from '../../ApiRequests'
+import { userContext } from '../userContext';
 
 
 function LoginPage(props) {
     const navigate = useNavigate()
 
+    const { userLogin } = useContext(userContext)
+    const { user } = useContext(userContext)
+    const { setUserLogin } = useContext(userContext)
+    const { setUser } = useContext(userContext)
+
     const [showCreateAccount, setShowCreateAccount] = useState(false)
+    const [accountAlreadyExists, setAccountAlreadyExists] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
 
     const [userName, setUserName] = useState('')
@@ -49,9 +56,9 @@ function LoginPage(props) {
 
             localStorage.setItem('userID', response.data[0]._id)
             localStorage.setItem('userName', response.data[0].userName)
-
-            props.handleLogin()
-            navigate('/home')
+            setUser({userName: response.data[0].userName, userId: response.data[0]._id})
+            setUserLogin(true)
+            navigate('/')
         } else {
             console.log('could not sign in')
             clearFields()
@@ -67,18 +74,23 @@ function LoginPage(props) {
             userName: userName,
             password: password,
         }
-        const response = await CreateUser(data)
-        if (response) {
-            console.log(response)
-            const userName = response.data.userName
-            const id = response.data._id
-
-            localStorage.setItem('userID', id)
-            localStorage.setItem('userName', userName)
-            navigate('/home')
-        } else {
-            console.log('no resposne ')
+        try{
+            const response = await CreateUser(data)
+            if (response) {
+                console.log(response)
+                const userName = response.data.userName
+                const id = response.data._id
+    
+                localStorage.setItem('userID', id)
+                localStorage.setItem('userName', userName)
+                navigate('/')
+            } else {
+                console.log('no resposne ')
+            }
+        } catch (err) {
+            setAccountAlreadyExists(true)
         }
+        
     }
 
     return (
@@ -110,12 +122,13 @@ function LoginPage(props) {
                             <div className="w-100 d-flex flex-column justify-content-center align-items-center" style={{ paddingTop: '25px', paddingBottom: '25px' }}>
                                 <hr className="w-100"></hr>
                                 <div className="row w-50" style={{ paddingTop: '15px', height: '55px' }}>
-                                    <input placeholder="Username" value={userName} onChange={(e) => setUserName(e.target.value)}></input>
+                                    <input placeholder="Username" value={userName} onChange={(e) => setUserName(e.target.value)} onClick={() => {setAccountAlreadyExists(false)}}></input>
                                 </div>
                                 <div className="row w-50" style={{ paddingTop: '10px', height: '55px' }}>
                                     <input placeholder="Password" type='password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
                                 </div>
                                 <Button variant='outline-primary' className="w-50" style={{ marginTop: '10px' }} onClick={() => { handleSignUp() }}>Sign Up</Button>
+                                {accountAlreadyExists && <div className="pt-2" style={{color:'red', textAlign:'start'}}>Account Already Exists</div>}
                             </div>
 
                         }

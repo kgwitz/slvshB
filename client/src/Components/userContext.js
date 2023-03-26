@@ -5,7 +5,7 @@ const userContext = React.createContext({
     userName: '',
     user: {
         userName: '',
-        _id: ''
+        userId: ''
     },
     setUserLogin: (usr) => { }, // Placeholder defining the shape of setUserLogin. setUserLogin will be replaced by the setState function
     setUserName: (usr) => { },
