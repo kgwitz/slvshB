@@ -1,7 +1,7 @@
 import React from 'react'
 
 const userContext = React.createContext({
-    userLogin: false,
+    userLogin: true,
     userName: '',
     user: {
         userName: '',

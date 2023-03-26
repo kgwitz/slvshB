@@ -6,11 +6,14 @@ import Accordion from 'react-bootstrap/Accordion'
 import Table from 'react-bootstrap/Table'
 import Alert from 'react-bootstrap/Alert'
 import { GetMatchups, GetUser, UpdateUser, GetLeaderboard } from '../../ApiRequests'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Button from "react-bootstrap/Button";
+import { userContext } from '../userContext';
 
 
 function Home() {
+    const { userLogin } = useContext(userContext)
+    const { setUserLogin } = useContext(userContext)
 
     const navigate = useNavigate()
     const [matchups, setMatchups] = useState([])
@@ -26,6 +29,7 @@ function Home() {
         getMatchups()
         getUser()
         getLeaderboard()
+        console.log('userlogin', userLogin)
     }, [])
 
     const getLeaderboard = async () => {
@@ -84,6 +88,15 @@ function Home() {
         }
     }, [updatedUser])
 
+    useEffect(() => {
+        if (localStorage.getItem('userName') != '' && localStorage.getItem('userID') != '') {
+            return 
+        } else {
+            navigate('/login')
+            setUserLogin(false)
+        }
+
+    })
 
 
     const renderLeaderboard = (user, index) => {
@@ -185,8 +198,8 @@ function Home() {
 
     return (
         <div className="" >
-            <div className="container" style={{ paddingTop: '2rem', backgroundColor:'white'}}>
-                <Accordion defaultActiveKey="0" className="" style={{ width: 'fit-content', minWidth: '250px'}}>
+            <div className="container" style={{ paddingTop: '2rem', backgroundColor: 'white' }}>
+                <Accordion defaultActiveKey="0" className="" style={{ width: 'fit-content', minWidth: '250px' }}>
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>LeaderBoard</Accordion.Header>
                         <Accordion.Body>

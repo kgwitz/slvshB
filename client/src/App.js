@@ -16,7 +16,7 @@ import './Components/main.css'
 import { userContext } from './Components/userContext'
 
 const App = () => {
-  const [userLogin, setUserLogin] = useState(false)
+  const [userLogin, setUserLogin] = useState(true)
   const [user, setUser] = useState({ userName: '', _id: '' })
 
   const handleLogout = () => {
@@ -33,7 +33,8 @@ const App = () => {
         setUserLogin(true)
         setUser({ userName: userName, userId: userId })
       }
-    }
+    } 
+
   }, [])
 
   return (
