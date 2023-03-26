@@ -16,7 +16,7 @@ import './Components/main.css'
 import { userContext } from './Components/userContext'
 
 const App = () => {
-  const [userLogin, setUserLogin] = useState(true)
+  const [userLogin, setUserLogin] = useState(false)
   const [user, setUser] = useState({ userName: '', _id: '' })
 
   const handleLogout = () => {

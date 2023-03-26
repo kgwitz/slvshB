@@ -16,8 +16,10 @@ router.post('/CreateUser', async (req, res) => {
                 user.save().then(result => {
                     res.send(result)
                 })
+            } else {
+                res.status(400).send('Bad Request: The username already exists')
             }
-            res.status(400).send('Bad Request: The username already exists')
+            
             
         })
     } catch (err) {

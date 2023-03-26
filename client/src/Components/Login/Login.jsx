@@ -94,6 +94,10 @@ function LoginPage(props) {
 
                 localStorage.setItem('userID', id)
                 localStorage.setItem('userName', userName)
+
+                setUser({ userName: response.data.userName, userId: response.data._id })
+                setUserLogin(true)
+
                 navigate('/')
             } else {
                 console.log('no resposne ')
@@ -123,8 +127,8 @@ function LoginPage(props) {
                                     <input type='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
                                 </div>
                                 <Button variant='outline-primary' className="w-50" style={{ marginTop: '10px' }} onClick={() => { handleSignIn() }}>Sign in</Button>
-                                {userLogin && <Button className="my-2" variant="outline-secondary">Enter</Button>}
-                                <Button variant="secondary" className="my-2" onClick={() => {NavigateHome()}}>Home</Button>
+                                {/* {userLogin && <Button className="my-2" variant="outline-secondary">Enter</Button>}
+                                <Button variant="secondary" className="my-2" onClick={() => {NavigateHome()}}>Home</Button> */}
                                 {couldNotLogin && <div className="pt-2" style={{ color: 'red' }}>Could not login</div>}
                                 <hr className="w-100" style={{ marginTop: '30px' }}></hr>
                             </div>
