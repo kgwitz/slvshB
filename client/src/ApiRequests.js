@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
-const URL = 'http://localhost:3001'
-// const URL = 'https://slvsh-bracket-api.onrender.com'
+// const URL = 'http://localhost:3001'
+const URL = 'https://slvsh-bracket-api.onrender.com'
 
 //Matchups
 const GetMatchups = async () => {
