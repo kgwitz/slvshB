@@ -49,10 +49,10 @@ function Prizes(props) {
             </Card>
             <Card className="w-100 mb-3">
                 <Card.Body>
-                    <Card.Title>Instagram Life Hacks </Card.Title>
+                    <Card.Title>Karaoke </Card.Title>
                     <Card.Subtitle className="mb-3 text-muted">Last Place</Card.Subtitle>
                     <Card.Text>
-                    Loser has to create a karaoke video of a song chosen by the winner, and share post it on youtube. 
+                    Loser has to create a karaoke video of a song chosen by the winner, and share it with group. 
                     </Card.Text>
                 </Card.Body>
             </Card>
