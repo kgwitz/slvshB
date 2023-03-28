@@ -91,6 +91,7 @@ router.get('/Leaderboard', async (req, res) => {
                     return {userName, score: updatedScore}
                 })
 
+                userScores.sort((a,b) => b.score - a.score)
                 console.log(userScores)
 
                 res.send(userScores)
